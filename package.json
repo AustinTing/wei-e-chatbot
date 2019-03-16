@@ -1,0 +1,25 @@
+{
+  "name": "wei-e-chatbot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AustinTing/wei-e-chatbot.git"
+  },
+  "author": "Austin Ting",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AustinTing/wei-e-chatbot/issues"
+  },
+  "homepage": "https://github.com/AustinTing/wei-e-chatbot#readme",
+  "dependencies": {
+    "bottender": "^0.15.17",
+    "dotenv": "^7.0.0",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.4"
+  }
+}
