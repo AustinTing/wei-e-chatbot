@@ -19,6 +19,9 @@
   "dependencies": {
     "bottender": "^0.15.17",
     "dotenv": "^7.0.0",
+    "lodash": "^4.17.11",
+    "log4js": "^4.0.2",
+    "query-string": "^6.4.0",
     "request": "^2.88.0",
     "request-promise": "^4.2.4"
   }
