@@ -1,9 +1,9 @@
-const _ = require('lodash')
+// const _ = require('lodash')
 // const queryString = require('query-string')
 const { LineHandler } = require('bottender')
 const rp = require('request-promise')
 
-var initSessionAndCheckContext = context => {
+var initContext = context => {
   let { event, session } = context
   if (!event || !session || !session.user || !session.user.id || !session.user.displayName) {
     return true
@@ -15,25 +15,47 @@ var initSessionAndCheckContext = context => {
   if (event.isText) {
     logger.info(`text: ${event.text}`)
   }
-  if (event.isPostback) {
-    logger.info(`postback: ${event.postback}`)
-  }
   return false
 }
 
-// var isAboutProfile = async context => {
-//   let { logger, event } = context
-//   if ((event.isText && event.text === '會員資料')) {
-//     logger.debug('handle, isAboutProfile true')
-//     return true
-//   }
-//   return false
-// }
-// var replyProfile = async context => {
-//   let { logger } = context
-//   await userHelper.replyProfile(context)
-//   logger.info('handle, reply profile')
-// }
+const logDisappearProp = context => {
+  let logger = require('../logger').getLogger('handler basic property not exist')
+  if (!context.event) return logger.error('no event, context: \n', context)
+  if (!context.session) return logger.error('no session, raw context: \n', context)
+  if (!context.session.id) return logger.error('no id, session: ', context.session)
+  if (!context.session.displayName) return logger.error('no displayName, session: ', context.session)
+  logger.error('Uncaught, context:', JSON.stringify(context))
+}
+
+const handleTaobaoText = async context => {
+  const { event, logger } = context
+  const { text } = event
+  logger.info(`handleTaobaoText`)
+  let option = {
+    method: 'POST',
+    uri: process.env.URI,
+    qs: {
+      vekey: process.env.VEKEY,
+      para: text
+    }
+  }
+  const result = JSON.parse(await rp(option))
+  if (result.error !== '0') {
+    logger.error(result)
+    return context.sendText(`查詢錯誤`)
+  }
+  const { data } = result
+  const replyText = `${data.title}
+参考价：${data.zk_final_price}
+内部券：暂无
+淘口令：(${data.tbk_pwd})
+————————————————
+複製本段訊息，打開淘寶APP 即可領券
+要看更多優惠券請打開優惠券網站:
+https://bit.ly/2tHC0Hf`
+  logger.info(`reply: \n${replyText}`)
+  await context.sendText(replyText)
+}
 
 const handleUncaught = context => {
   let { logger } = context
@@ -47,16 +69,8 @@ const handleUncaught = context => {
   logger.warn('Uncaught Flow, event:', context.event.rawEvent)
 }
 
-const logDisappearProp = context => {
-  let logger = require('../logger').getLogger('handler basic property not exist')
-  if (!context.event) return logger.error('no event, context: \n', context)
-  if (!context.session) return logger.error('no session, raw context: \n', context)
-  if (!context.session.id) return logger.error('no id, session: ', context.session)
-  if (!context.session.displayName) return logger.error('no displayName, session: ', context.session)
-  logger.error('Uncaught, context:', JSON.stringify(context))
-}
-
 module.exports = new LineHandler()
-  .on(initSessionAndCheckContext, logDisappearProp)
+  .on(initContext, logDisappearProp)
+  .onText(/https:\/\/m.tb.cn\//g, handleTaobaoText)
   .onEvent(handleUncaught)
   .build()
