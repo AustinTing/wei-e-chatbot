@@ -44,10 +44,15 @@ const handleTaobaoText = async context => {
     logger.error(result)
     return context.sendText(`查詢錯誤`)
   }
+  logger.debug(JSON.stringify(result))
   const { data } = result
+  let { coupon_info: couponInfo } = data
+  if (!couponInfo) {
+    couponInfo = '暫無'
+  }
   const replyText = `${data.title}
 参考价：${data.zk_final_price}
-内部券：暂无
+内部券：${couponInfo}
 淘口令：(${data.tbk_pwd})
 ————————————————
 複製本段訊息，打開淘寶APP 即可領券
