@@ -1,7 +1,7 @@
 require('dotenv').config()
 const { LineBot } = require('bottender')
 const { createServer } = require('bottender/express')
-const handler = require('./handler')
+const handler = require('./components/handler')
 
 const bot = new LineBot({
   accessToken: process.env.CHANNEL_ACCESS_TOKEN,
