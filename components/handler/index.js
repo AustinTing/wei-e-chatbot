@@ -3,6 +3,7 @@
 const { LineHandler } = require('bottender')
 const handleTaobaoLink = require('./handleTaobaoLink')
 const handleHelp = require('./handleHelp')
+const handleNumber = require('./handleNumber')
 const handleUncaught = require('./handleUncought')
 
 var initContext = context => {
@@ -33,5 +34,6 @@ module.exports = new LineHandler()
   .on(initContext, logDisappearProp)
   .onText(/https:\/\/m.tb.cn\//g, handleTaobaoLink)
   .onText('幫助', handleHelp)
+  .onText(/\d+/, handleNumber)
   .onEvent(handleUncaught)
   .build()
