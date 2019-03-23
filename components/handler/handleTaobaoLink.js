@@ -1,5 +1,5 @@
 const rp = require('request-promise')
-
+const { COUPON_WEBSITE } = process.env
 module.exports = async context => {
   const { event, logger } = context
   const { text } = event
@@ -31,7 +31,7 @@ module.exports = async context => {
 複製本段訊息，打開淘寶APP 即可領券
 ————————
 要看更多優惠券請打開優惠券網站:
-https://bit.ly/2tHC0Hf`
+${COUPON_WEBSITE}`
   logger.info(`reply: \n${replyText}`)
   await context.sendText(replyText)
 }
