@@ -5,7 +5,7 @@ const handleTaobaoLink = require('./handleTaobaoLink')
 const handleHelp = require('./handleHelp')
 const handleNumber = require('./handleNumber')
 const handleOpenBox = require('./handleOpenBox')
-const handleCouponcode = require('./handleCouponcode')
+const handleCouponcode = require('./handleCouponCode')
 const handleUncaught = require('./handleUncought')
 
 var initContext = context => {
