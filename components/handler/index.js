@@ -39,6 +39,5 @@ module.exports = new LineHandler()
   .onText(/\d+/, handleNumber)
   .onText('開箱文', handleOpenBox)
   .onText('折扣碼', handleCouponcode)
-
   .onEvent(handleUncaught)
   .build()
