@@ -5,7 +5,7 @@ const handleTaobaoLink = require('./handleTaobaoLink')
 const handleHelp = require('./handleHelp')
 const handleNumber = require('./handleNumber')
 const handleOpenBox = require('./handleOpenBox')
-const handleNote = require('./handleNote')
+const handleCouponcode = require('./handleCouponcode')
 const handleUncaught = require('./handleUncought')
 
 var initContext = context => {
@@ -38,7 +38,7 @@ module.exports = new LineHandler()
   .onText('幫助', handleHelp)
   .onText(/\d+/, handleNumber)
   .onText('開箱文', handleOpenBox)
-  .onText('折扣碼', handleNote)
+  .onText('折扣碼', handleCouponcode)
 
   .onEvent(handleUncaught)
   .build()
