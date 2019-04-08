@@ -1,3 +1,4 @@
+const { Line } = require('messaging-api-line')
 const {
   TAOBAO_APP_SHOPPING_TUTORIAL,
   HOW_TO_PICK_SELLER,
@@ -22,5 +23,5 @@ module.exports = async context => {
 |買220V電器注意事項->輸入13
 |如何輸入折扣碼?->輸入 14
 傳送相對應數字到line，機器人會把連結傳給你喲～`
-  return context.sendText(reply)
+  return context.reply([Line.createText(reply)])
 }

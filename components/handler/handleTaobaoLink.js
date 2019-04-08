@@ -1,5 +1,7 @@
+const { Line } = require('messaging-api-line')
 const rp = require('request-promise')
 const { COUPON_WEBSITE } = process.env
+
 module.exports = async context => {
   const { event, logger } = context
   const { text } = event
@@ -15,7 +17,7 @@ module.exports = async context => {
   const result = JSON.parse(await rp(option))
   if (result.error !== '0') {
     logger.error(result)
-    return context.sendText(`查詢錯誤`)
+    return context.reply([Line.createText('查詢錯誤')])
   }
   logger.debug(JSON.stringify(result))
   const { data } = result
@@ -33,5 +35,5 @@ module.exports = async context => {
 要看更多優惠券請打開優惠券網站:
 ${COUPON_WEBSITE}`
   logger.info(`reply: \n${replyText}`)
-  await context.sendText(replyText)
+  return context.reply([Line.createText(replyText)])
 }
