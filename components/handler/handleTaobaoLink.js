@@ -17,7 +17,7 @@ module.exports = async context => {
   const result = JSON.parse(await rp(option))
   if (result.error !== '0') {
     logger.error(result)
-    return context.reply([Line.createText('查詢錯誤')])
+    return context.reply([Line.createText('此商品無優惠券')])
   }
   logger.debug(JSON.stringify(result))
   const { data } = result
